@@ -2,17 +2,19 @@ from flask import Flask, render_template, jsonify, request
 from pymongo import MongoClient
 from flaskext.markdown import Markdown
 import hashlib
+import pdb
 
 client = MongoClient()
 db = client.msrit
 app = Flask(__name__, static_url_path='')
 Markdown(app)
 
-@app.route('/')
+@app.route('/',methods=['GET'])
 def index():
 	"""
 	:return: Renders Main Home Page
 	"""
+        #pdb.set_trace()
 	return render_template('index.html')
 
 @app.route('/post',methods=['GET'])
@@ -74,7 +76,7 @@ def load_exp(exp_hash):
 	with open('./static/'+exp_hash,'r') as f:
 		for l in f.readlines():
 			data.append(l.strip())
-	return render_template('experience.html',name=data[0],company=data[1],date=data[2],exp="\n".join(data[3:]))
+	return render_template('experience.html',name=data[0],company=data[1],date=data[2],exp="<br/>".join(data[3:]))
 
 @app.route('/resources',methods=['GET'])
 def resources():
